@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Virendra & Neha's Wedding</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+<style>
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #ffffff;
+    color: #333;
+  }
+
+  /* Navigation styles */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Desktop nav links */
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  nav li {
+    margin: 0 15px;
+  }
+  nav a {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    padding: 8px 15px;
+    border-radius: 25px;
+    color: #d81b60;
+    transition: all 0.3s ease;
+  }
+  nav a:hover {
+    background-color: #d81b60;
+    color: #fff;
+  }
+
+  /* Hamburger menu for mobile */
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+  }
+  .menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: #d81b60;
+    margin: 4px 0;
+    transition: 0.3s;
+  }
+
+  /* Side drawer for mobile */
+  #sideDrawer {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background: rgba(255,255,255,0.95);
+    box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+    transition: right 0.3s ease;
+    padding-top: 60px;
+    z-index: 1500;
+  }
+  #sideDrawer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  #sideDrawer li {
+    margin: 20px 0;
+    text-align: center;
+  }
+  #sideDrawer a {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.2em;
+    color: #d81b60;
+  }
+
+  /* Show side drawer when active */
+  #sideDrawer.active {
+    right: 0;
+  }
+
+  /* Sections styling */
+section {
+  padding: 120px 20px 50px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Hero / Welcome Section with shorter height and no texts inside */
+#home {
+  height: 60vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 1s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: #fff;
+  text-align: center;
+  padding-top: 0;
+  opacity: 0; /* start hidden for animation */
+}
+
+/* Overlay for readability */
+#home::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+/* Optional: add some welcome text if desired in future */
+#home-content {
+  position: relative;
+  z-index: 2;
+  max-width: 90%;
+}
+
+/* Countdown styles */
+#countdown-section {
+  padding: 50px 20px;
+  background-color: #fff;
+  text-align: center;
+  opacity: 0; /* start hidden for animation */
+  transition: opacity 1s ease;
+}
+#countdown {
+  display: flex;
+  justify-content: center;
+  gap: 30px; /* bigger gap for emphasis */
+  font-size: 0.5em; /* smaller font size */
+  flex-wrap: wrap;
+}
+.countdown-item {
+  background-color: rgba(165, 193, 172, 0.2);
+  padding: 15px 30px;
+  border-radius: 15px;
+  min-width: 120px;
+  text-align: center;
+  font-size: 2em; /* smaller text */
+  color: #000000; /* teal color */
+  box-shadow: 0 4px 15px rgba(144, 104, 148, 0.395);
+  font-weight: bold;
+}
+
+/* Invitation Texts styles */
+#invitation-texts {
+  padding: 50px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  opacity: 0; /* start hidden for animation */
+}
+#invitation-texts h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3em;
+  margin-bottom: 0.5em;
+}
+#invitation-texts h2 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2em;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+/* Profiles styling */
+#invitation-texts .profiles {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+#invitation-texts .profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#invitation-texts .profile-pic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fd0072;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+#invitation-texts .profile-pic:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(4, 234, 255, 0.648);
+}
+
+/* Style for "Weds" text between profiles */
+.weds-text {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2em;
+  margin: 10px 0;
+  color: #010101;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+}
+
+/* Section titles styles */
+.section-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3em;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #d81b60;
+}
+/* Event section styles */
+#event {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0; /* for animation */
+}
+#event div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 10px;
+  position: relative; /* for positioning icons */
+}
+#event img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+/* Make images and map responsive */
+@media(max-width: 500px){
+  #home {
+    height: 20vh;
+    background-size: cover;
+    background-position: center;
+  }
+  #invitation-texts .profiles {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  iframe {
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+  }
+}
+
+/* Additional styling for mobile menu toggle remains same */
+@media(max-width: 768px){
+  nav {
+    display: none;
+  }
+  .menu-toggle {
+    display: flex;
+  }
+}
+
+/* Animation classes for fade-in effects */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fadeInUp {
+  opacity: 0;
+  animation: fadeInUp 1s forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fadeIn {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+/* Hover effects */
+nav a:hover,
+#invitation-texts .profile-pic:hover,
+#event img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+/* Hamburger hover effect */
+.menu-toggle {
+  transition: transform 0.3s;
+}
+.menu-toggle:hover {
+  transform: rotate(5deg);
+}
+
+/* Style for sound icons */
+.sound-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  opacity: 0.7;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sound-icon:hover {
+  opacity: 1;
+}
+/* Flipbook page styles */
+#flipbook {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  perspective: 1500px;
+  position: relative;
+  transition: transform 1s;
+}
+.page {
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
+}
+/* Make flipbook images responsive */
+#flipbook .page img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+#flipbook-wrapper {
+  width: 80vw; /* or 350px as in your inline style, but better to use relative units for responsiveness */
+  height: 60vh; /* or 400px, depending on your preference */
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation with hamburger menu -->
+<nav>
+  <div class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" role="button" tabindex="0">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <ul id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#invitation-texts">Invitation</a></li>
+    <li><a href="#event">Event</a></li>
+    <li><a href="#eager">Eager</a></li>
+    <li><a href="#details">Wedding Venue</a></li>
+    <li><a href="#countdown-section">Countdown</a></li>
+  </ul>
+</nav>
+
+<!-- Side drawer for mobile -->
+<div id="sideDrawer">
+  <ul>
+    <li><a href="#home" onclick="closeDrawer()">Home</a></li>
+    <li><a href="#invitation-texts" onclick="closeDrawer()">Invitation</a></li>
+    <li><a href="#event" onclick="closeDrawer()">Event</a></li>
+    <li><a href="#eager" onclick="closeDrawer()">Eager</a></li>
+    <li><a href="#details" onclick="closeDrawer()">Wedding Venue</a></li>
+    <li><a href="#countdown-section" onclick="closeDrawer()">Countdown</a></li>
+  </ul>
+</div>
+
+<!-- Hero / Welcome Section -->
+<section id="home">
+  <!-- background image handled via JS -->
+</section>
+
+<!-- Invitation Texts -->
+<section id="invitation-texts">
+    <h1>You're Invited!</h1>
+    <br>
+  <h2>In</h2>
+  <h2>The</h2>
+  <h2>Virendra & Neha's</h2>
+  <h2>Wedding</h2>
+  <div class="profiles">
+    <div class="profile">
+      <a href="https://www.instagram.com/virendras238" target="_blank">
+        <img src="/photo/viru.png" alt="Virendra" class="profile-pic" />
+      </a>
+      <p style="font-family: 'Great Vibes', cursive; font-size: 20px;">Virendra</p>
+    </div>
+    <div class="weds-text">Weds</div>
+    <div class="profile">
+      <a href="https://www.instagram.com/nehaveer98" target="_blank">
+        <img src="/photo/nehaa.png" alt="Neha" class="profile-pic" />
+      </a>
+      <p style="font-family: 'Great Vibes', cursive; font-size: 20px">Neha</p>
+    </div>
+  </div>
+</section>
+
+<!-- Event Images Section -->
+<section id="event">
+  <div class="section-title" style="color:#010101;">Events</div>
+  <div class="event-images-container">
+    <!-- Example image with sound icon -->
+    <div class="event-img-container" data-song="haldi.mp3">
+      <img src="/photo/haldi.png" alt="Haldi Ceremony" />
+      <button class="sound-icon" title="Toggle Sound">🔊</button>
+    </div>
+    <div class="event-img-container" data-song="Chote Chote Bhaiyon Ke Bade Bhaiya Hum Saath Saath Hain 128 Kbps.mp3">
+      <img src="/photo/wed.png" alt="Wedding" />
+      <button class="sound-icon" title="Toggle Sound">🔊</button>
+    </div>
+    <div class="event-img-container" data-song="vidaai.mp3">
+      <img src="/photo/vidaai.png" alt="Vidaai" />
+      <button class="sound-icon" title="Toggle Sound">🔊</button>
+    </div>
+    <div class="event-img-container" data-song="reception.mp3">
+      <img src="/photo/reception.png" alt="Reception" />
+      <button class="sound-icon" title="Toggle Sound">🔊</button>
+    </div>
+  </div>
+</section>
+
+<!-- "Those Eagerly Awaiting Your Presence" -->
+<section id="eager">
+  <div class="section-title">Those Eagerly Awaiting Your Presence</div>
+  <p style="text-align:justify; line-height: 1.5; font-style: italic;" >
+    Prem Chandra Singh, Harikesh Singh, Harivindra Singh, Bhaiya Ram Singh, Raju Singh, Atom Singh, Satyendra Singh, Sonu Singh, Monu Singh(Department of Food Supplies and Consumer Affairs), Rohit Singh, Nikhil Singh, Akash Singh, Deepak Singh, Mukesh, Pravendra, Rishabh, Hardik, Daksha, Aarush, Aarav, Prateek, Ansh, Kunj with
+    Our family, friends, and loved ones are excited to celebrate this
+      special day with you. Your presence means the world to us!</p>
+      <br>
+  <div class="section-title">The Host of the Wedding</div>
+  <p style="text-align:justify; line-height: 1.5; font-style: italic;" >
+    Ram Awadh Singh , Raj Mani Singh, Tribhuvan Singh, Om Prakash Singh, Rajesh Singh, Jai Prakash Singh</p>
+  </section>
+  <!-- Wedding Photos Flipbook -->
+  <section id="photo-flipbook" style="padding: 50px 20px; background-color: #fce4ec; text-align: center;">
+    <h2 style="font-family: 'Great Vibes', cursive; font-size: 2.5em; margin-bottom: 20px;">Previous Wedding Memories</h2>
+    <div id="flipbook-wrapper" style="width: 350px; height: 400px; margin: 0 auto; perspective: 1500px;">
+      <div id="flipbook"">
+        <!-- Photos will be dynamically inserted here -->
+      </div>
+    </div>
+    <div style="margin-top: 20px;">
+      <button onclick="flipPrev()" style="padding: 8px 16px; border-radius: 8px; background-color: #d81b60; color: #fff; border: none; cursor: pointer;">Previous</button>
+      <button onclick="flipNext()" style="padding: 8px 16px; border-radius: 8px; background-color: #d81b60; color: #fff; border: none; cursor: pointer;">Next</button>
+    </div>
+  </section>
+  <!-- Countdown Timer Section -->
+<section id="countdown-section">
+  <div class="section-title">Countdown to the Wedding</div>
+  <div id="countdown">
+    <div class="countdown-item"><span id="days">0</span> Days</div>
+    <div class="countdown-item"><span id="hours">0</span> Hours</div>
+    <div class="countdown-item"><span id="minutes">0</span> Minutes</div>
+    <div class="countdown-item"><span id="seconds">0</span> Seconds</div>
+  </div>
+</section>
+  
+  <!-- Wedding Venue & Map -->
+  <section id="details">
+  <div class="section-title">Wedding Venue</div>
+  <p style="text-align:center;"><strong>Date:</strong> 24 November, 2025 | <strong>Time:</strong> 7:30 PM</p>
+  <p style="text-align:center;"><strong>Location:</strong> Prithvi Garden, Sarai Inayat, Prayagraj</p>
+  <!-- Google Map Embed -->
+  <div style="margin-top:30px; text-align:center;">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14414.318796774973!2d82.0056698!3d25.4188759!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39854db3d496bb3d%3A0xfdf30f7588588715!2sPRITHVI%20GARDEN%20AND%20HOTEL!5e0!3m2!1sen!2sin!4v1762036636057!5m2!1sen!2sin" width="600" height="450" style="border:0; width:100%; height:auto;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</section>
+<!-- Wedding Venue & Map -->
+<section id="details">
+  <div class="section-title">Home Address</div>
+  <p style="text-align:center;"><strong ">Location:</strong> Dagaraha Ka Pura, Barethi, Prayagraj</p>
+  <!-- Google Map Embed -->
+  <div style="margin-top:30px; text-align:center;">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d2960.4833318743435!2d82.08634180808639!3d25.41187787916825!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e1!3m2!1sen!2sin!4v1762179032806!5m2!1sen!2sin" width="600" height="450" style="border:0; width:100%; height:auto;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>  
+    </div>
+</section>
+
+
+
+<!-- Floating Hearts Container -->
+<div id="hearts-container" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index: 999;">
+</div>
+
+
+
+
+<!-- Scripts -->
+<script>
+    // Background slideshow images
+    const images = [
+        'url("/photo/2.png")',
+        'url("/photo/3.png")',
+        'url("/photo/1.png")'
+    ];
+
+    let currentImageIndex = 0;
+    const homeSection = document.getElementById('home');
+
+    function changeBackground() {
+        homeSection.style.backgroundImage = images[currentImageIndex];
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+    }
+
+    changeBackground();
+    setInterval(changeBackground, 5000);
+
+    // Countdown
+    const weddingDate = new Date('Nov 24, 2025 19:30:00').getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').innerText = days;
+        document.getElementById('hours').innerText = hours;
+        document.getElementById('minutes').innerText = minutes;
+        document.getElementById('seconds').innerText = seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const sideDrawer = document.getElementById('sideDrawer');
+
+    document.getElementById('menuToggle').addEventListener('click', () => {
+        sideDrawer.classList.toggle('active');
+        const expanded = sideDrawer.classList.contains('active');
+        document.querySelector('.menu-toggle').setAttribute('aria-expanded', expanded);
+    });
+
+    function closeDrawer() {
+        sideDrawer.classList.remove('active');
+        document.querySelector('.menu-toggle').setAttribute('aria-expanded', false);
+    }
+
+    // Animate sections on scroll
+    const sections = document.querySelectorAll('section');
+
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fadeIn');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        section.classList.add('animate-fadeIn');
+        observer.observe(section);
+    });
+
+    // Fade in countdown section specifically
+    const countdownSection = document.getElementById('countdown-section');
+    const countdownObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fadeIn');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    countdownObserver.observe(countdownSection);
+
+    // ----------- Hover music feature for event images -----------
+
+ // Store all audio objects for the images
+// Store all audio objects for the images
+const imageAudios = [];
+
+document.querySelectorAll('.event-img-container').forEach((container, index) => {
+    const songSrc = container.getAttribute('data-song');
+    const audio = new Audio(songSrc);
+    audio.loop = true;
+    audio.muted = false; // default unmuted, so sound plays
+    audio.preload = 'auto';
+    imageAudios.push(audio);
+
+    const soundBtn = container.querySelector('.sound-icon');
+
+    // Toggle mute/unmute on icon click
+    soundBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        audio.muted = !audio.muted;
+        if (audio.muted) {
+            soundBtn.innerText = '🔇';
+        } else {
+            soundBtn.innerText = '🔊';
+        }
+    });
+
+    // Play sound on hover if not muted
+    container.addEventListener('mouseenter', () => {
+        // Pause all other audios
+        imageAudios.forEach((aud) => {
+            if (aud !== audio) {
+                aud.pause();
+                aud.currentTime = 0;
+            }
+        });
+        if (!audio.muted) {
+            audio.play().catch(() => {
+                // Handle autoplay policies
+            });
+        }
+    });
+
+    // Pause sound on mouse leave
+    container.addEventListener('mouseleave', () => {
+        audio.pause();
+    });
+});
+// Array of your wedding photos
+const photos = [
+  "/photo/mem1.jpg",
+  "/photo/mem2.jpg",
+  "/photo/mem3.jpg",
+  "/photo/mem4.jpg",
+  "/photo/mem5.jpg",
+  "/photo/mem6.jpg",
+  "/photo/mem7.jpg",
+  "/photo/mem8.jpg",
+  "/photo/mem9.jpg",
+  "/photo/mem10.jpg",
+  "/photo/mem11.jpg",
+  "/photo/mem12.jpg",
+  "/photo/mem13.jpg",
+  
+  // Add more photo paths as needed
+];
+
+let currentPageIndex = 0;
+
+// Function to display the current photo
+function showPage(index) {
+  const flipbook = document.getElementById('flipbook');
+  flipbook.innerHTML = '';
+
+  if (photos.length === 0) return;
+
+  // Clamp index
+  if (index < 0) index = 0;
+  if (index >= photos.length) index = photos.length - 1;
+  currentPageIndex = index;
+
+  // Create the page element
+  const page = document.createElement('div');
+  page.className = 'page';
+
+  // Insert the photo
+  const img = document.createElement('img');
+  img.src = photos[index];
+  img.alt = `Wedding Photo ${index + 1}`;
+
+  page.appendChild(img);
+  flipbook.appendChild(page);
+}
+
+// Flip to next photo
+function flipNext() {
+  if (currentPageIndex < photos.length - 1) {
+    currentPageIndex++;
+    flipAnimation();
+  }
+}
+
+// Flip to previous photo
+function flipPrev() {
+  if (currentPageIndex > 0) {
+    currentPageIndex--;
+    flipAnimation();
+  }
+}
+
+// Animate flip
+function flipAnimation() {
+  const flipbook = document.getElementById('flipbook');
+  flipbook.style.transform = 'rotateY(180deg)';
+  setTimeout(() => {
+    showPage(currentPageIndex);
+    flipbook.style.transform = 'rotateY(0deg)';
+  }, 500);
+}
+
+// Initialize with the first photo
+showPage(0);
+
+// Floating Hearts Effect
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.innerHTML = '❤️';
+  heart.style.position = 'absolute';
+  heart.style.bottom = '0px';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.fontSize = Math.random() * 24 + 20 + 'px';
+  heart.style.opacity = 1;
+  heart.style.transform = 'translateY(0) rotate(' + (Math.random() * 360) + 'deg)';
+  document.getElementById('hearts-container').appendChild(heart);
+
+  const fallDuration = Math.random() * 5 + 5; // 5-10 seconds
+  const rotateDeg = Math.random() * 360;
+
+  // Animate
+  heart.animate([
+    { transform: 'translateY(0) translateX(0) rotate(0deg)', opacity: 1 },
+    { transform: 'translateY(-100vh) translateX(' + (Math.random() * 100 - 50) + 'vw) rotate(' + rotateDeg + 'deg)', opacity: 0 }
+  ], {
+    duration: fallDuration * 1000,
+    easing: 'linear'
+  }).onfinish = () => {
+    heart.remove();
+  };
+}
+
+// Generate hearts periodically
+setInterval(createHeart, 300);
+
+// Also create some hearts immediately for effect
+for (let i = 0; i < 20; i++) {
+  createHeart();
+}
+</script>
+<!-- Footer / Copyright -->
+<footer style="text-align: center; padding: 20px; background-color: #fce4ec; font-family: 'Roboto', sans-serif; font-size: 0.9em; color: #555;">
+  &copy; 2025 Akash Singh. All rights reserved.
+</footer>
+</body>
+</html>
